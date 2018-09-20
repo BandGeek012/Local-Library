@@ -6,21 +6,12 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
 
 var app = express();
 
-//Set up mongoose connection
-var mongoose = require('mongoose');
-var mongoDB = 'mongodb://locallibrary:Sc0ttc4rd@ds149682.mlab.com:49682/local_library_mjp';
-mongoose.connect(mongoDB);
-mongoose.Promise = global.Promise;
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -30,7 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/catalog', catalogRouter);  // Add catalog routes to middleware chain.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
